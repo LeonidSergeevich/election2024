@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Выбор кондидата</title>
+</head>
+<body>
+<div class="flex_block">
+    <h1>Выборы президента РФ - 2024</h1>
+    <div class="candidate_block flex_block">
+        <div class="your_candidate flex_block" id="your_candidate"></div>
+        <button class="chose_button" id="chose_button">Выбрать</button>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    const button = document.querySelector('#chose_button');
+    const candidateBlock = document.querySelector('#your_candidate');
+    const candidates = [
+        {'name': 'Владислав Даванков', 'party': '«Новые люди»', 'photo': 'Vladislav_Davankov.webp'},
+        {'name': 'Леонид Слуцкий', 'party': 'ЛДПР', 'photo': 'Leonid_Slutsky.webp'},
+        {'name': 'Николай Харитонов', 'party': 'КПРФ', 'photo': 'Nikolay_Kharitonov.webp'},
+    ];
+    button.addEventListener('click', () => {
+        candidateBlock.innerHTML = `<h2>Идёт выбор кандидата...</h2><div class="loader spin"></div>`;
+        let promise = new Promise((resolve) => {
+            setTimeout(() => resolve(Math.floor(Math.random() * 3)), 10000);
+        });
+        promise.then((result) => {
+            candidateBlock.innerHTML = getCandidateEl(candidates[result])
+        });
+    });
+
+    function getCandidateEl(candidate) {
+        return `<img src="${candidate.photo}" alt="${candidate.name}"><h2>Имя: ${candidate.name}</h2><p>Партия: ${candidate.party}</p>`;
+    }
+</script>
+<style>
+    h1 {
+        text-align: center;
+    }
+    .chose_button {
+        width: 90px;
+        height: 90px;
+        border-radius: 45px;
+        font-size: 100%;
+        font-weight: bold;
+        border: none;
+        background-color: #2f77b7;
+        color: #ffffff;
+    }
+    .candidate_block {
+        position: relative;
+        flex: 1 0 auto;
+        max-width: 153.2rem;
+        padding: 0 1.6rem;
+        margin: 0 auto;
+    }
+    .your_candidate {
+        width: 400px;
+        height: 300px;
+    }
+    .flex_block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .loader {
+        width : 80px;
+        height: 80px;
+        border: 16px solid white;
+        border-top:16px solid #2f77b7;
+        border-radius: 50%;
+    }
+    .spin {
+        animation: spinner 1.5s linear infinite;
+    }
+    @keyframes spinner {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
